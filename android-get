@@ -1,0 +1,6 @@
+#!/bin/sh
+# Just retrieves a <fdroid://Export Contacts> product from an inserted android device
+path=${1:-sdb}
+pmount "$path"
+mv "/mnt/$path/android-contacts.vcf" .
+pumount "$path"
