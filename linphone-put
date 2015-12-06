@@ -1,0 +1,5 @@
+#!/bin/sh
+what=${1:-vcf.vcf}
+cp ~/.linphonerc{,.backup}
+sed -ne '/\[friend_/q;p' ~/.linphonerc.backup > ~/.linphonerc
+./linphone-put.hs < vcf.vcf >> ~/.linphonerc
