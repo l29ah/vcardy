@@ -7,14 +7,14 @@ import Data.List
 import Data.Map hiding (map)
 import Prelude as P hiding (interact)
 import Text.VCard.Format.Directory
-import Text.VCard.Query
+import Text.VCard.Query as Q
 
-gv n v = BC8.unpack (printValue (lookup' n v))
+gv n v = BC8.unpack (printValue (maybe (error ("No field " ++ show n ++ " in vcard " ++ show v)) P.head (Q.lookup n v)))
 
 linphonify :: (Int, VCard) -> ByteString
 --linphonify (n, (VCard _ map)) = pack $ "[friend_" ++ show n ++ "]\n" ++
 linphonify (n, vc) = pack $ "[friend_" ++ show n ++ "]\n" ++
-	"url=\"" ++ gv "fn" vc ++ "\" <sip:" ++ gv "tel" vc ++ "@multifon.ru>\n" ++
+	"url=\"" ++ gv "fn" vc ++ "\" <sip:" ++ P.tail (gv "tel" vc) ++ "@multifon.ru>\n" ++
 	"pol=accept\n" ++
 	"subscribe=1\n\n"
 
