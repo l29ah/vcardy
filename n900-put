@@ -1,0 +1,8 @@
+#!/bin/sh
+host=${1:-n900}
+./n900-put.hs < vcf.vcf > vcf.vcf.n900
+scp vcf.vcf.n900 root@$host:/tmp/vcf.vcf &&
+# It won't work w/o `su - user`
+ssh root@$host 'chown user /tmp/vcf.vcf && echo "osso-addressbook-backup -i /tmp/vcf.vcf" | su - user'
+ssh root@$host 'rm -f /tmp/vcf.vcf'
+rm vcf.vcf.n900
