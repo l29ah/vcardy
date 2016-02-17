@@ -1,0 +1,6 @@
+#!/bin/sh
+host=${1:-n900}
+# It won't work w/o `su - user`
+ssh root@$host 'echo "osso-addressbook-backup -e /tmp/n900.vcf" | su - user'
+scp root@$host:/tmp/n900.vcf . &&
+ssh root@$host 'rm -f /tmp/n900.vcf'
